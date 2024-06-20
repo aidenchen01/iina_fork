@@ -349,7 +349,7 @@ struct Preference {
 
   // MARK: - Enums
 
-  enum ActionAfterLaunch: Int, InitializingFromKey {
+  enum ActionAfterLaunch: Int, InitializingFromKey, CaseIterable {
     case welcomeWindow = 0
     case openPanel
     case none
@@ -588,7 +588,7 @@ struct Preference {
     }
   }
 
-  enum ScreenshotFormat: Int, InitializingFromKey {
+  enum ScreenshotFormat: Int, InitializingFromKey, CaseIterable {
     case png = 0
     case jpg
     case jpeg
@@ -788,9 +788,15 @@ struct Preference {
     }
   }
 
-  enum DefaultRepeatMode: Int {
+  enum DefaultRepeatMode: Int, InitializingFromKey, CaseIterable {
+    static var defaultValue = DefaultRepeatMode.playlist
+
     case playlist = 0
     case file
+
+    init?(key: Key) {
+      self.init(rawValue: Preference.integer(for: key))
+    }
   }
 
   // MARK: - Defaults
