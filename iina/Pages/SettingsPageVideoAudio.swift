@@ -117,6 +117,7 @@ class SettingsPageVideoAudio: SettingsPage {
           .image(name: "hifispeaker.and.homepod")
           .withDetailView(audioOutputDevideView.view)
         SettingsItem.General(title: .text_SPDIFOutput)
+          .image(name: "audio.jack.stereo")
           .withExpandingDetailView {
             SettingsItem.Switch()
               .bindTo(.spdifAC3)
@@ -129,7 +130,7 @@ class SettingsPageVideoAudio: SettingsPage {
 
       SettingsListView {
         SettingsItem.General(title: .text_PreferredLanguage)
-          .image(name: "globe")
+          .image(name: "character.book.closed")
           .withDetailView(
             SettingsAccessory.LanguageSelector()
               .bind(to: .audioLanguage)
