@@ -21,6 +21,8 @@ class SettingsPageSubtitles: SettingsPage {
     "SettingsSubtitesLocalizable"
   }
 
+  private lazy var autoLoadPriorityInput: AdvancedInput = AdvancedInput(l10n: localizationContext)
+  private lazy var autoLoadSearchDirInput: AdvancedInput = AdvancedInput(l10n: localizationContext)
   private lazy var subtitlesASSView: SubtitlesASSView = SubtitlesASSView(l10n: localizationContext)
   private lazy var subtitlesFontView: SubtitlesFontView = SubtitlesFontView(l10n: localizationContext)
   private lazy var subtitlesColorView: SubtitlesColorView = SubtitlesColorView(l10n: localizationContext)
@@ -50,7 +52,9 @@ class SettingsPageSubtitles: SettingsPage {
         SettingsItem.General(title: .text_Advanced)
           .withExpandingDetailView {
             SettingsItem.General(title: .text_SubtitlesHavePriorityWhenFilename)
+              .withDetailView(autoLoadPriorityInput.view)
             SettingsItem.General(title: .text_AlsoSearchSubtitlesInFollowing)
+              .withDetailView(autoLoadSearchDirInput.view)
           }
       }
     }
@@ -486,5 +490,23 @@ fileprivate class SubtitlesEncodingView: SBaseView {
     Preference.set(sender.selectedItem!.representedObject!, for: .defaultEncoding)
     PlayerCore.active.setSubEncoding((sender.selectedItem?.representedObject as? String) ?? "auto")
     PlayerCore.active.reloadAllSubs()
+  }
+}
+
+
+fileprivate class AdvancedInput: SBaseView {
+  let inputField: NSTextField
+  
+  override init(l10n: SettingsLocalization.Context) {
+    self.inputField = NSTextField()
+    super.init(l10n: l10n)
+    
+    inputField.controlSize = .small
+    inputField.font = NSFont.systemFont(ofSize: NSFont.smallSystemFontSize)
+    
+    let stackView = NSStackView(views: [inputField])
+    stackView.translatesAutoresizingMaskIntoConstraints = false
+    view.addSubview(stackView)
+    stackView.padding(.top, .leading(SettingsSubListView.padding), .trailing(8), .bottom(8))
   }
 }

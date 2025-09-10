@@ -533,7 +533,11 @@ struct SettingsItem {
       popupButton = NSPopUpButton()
       popupButton.translatesAutoresizingMaskIntoConstraints = false
       popupButton.bezelStyle = .flexiblePush
-      popupButton.showsBorderOnlyWhileMouseInside = true
+      if #available(macOS 26, *) {
+        popupButton.showsBorderOnlyWhileMouseInside = false
+      } else {
+        popupButton.showsBorderOnlyWhileMouseInside = true
+      }
       return [popupButton, nsSwitch]
     }
 
